@@ -194,12 +194,21 @@ while running:
         win = pygame.display.set_mode((width, height))
         pygame.display.set_caption("Maze Game")
 
-        frame_timer = pygame.time.Clock() #makes game run smoother
+        frame_timer = pygame.time.Clock()
         maze = maze_generation(row,col)
         player_position = [0,0]
         running = True
 
+        countdown_times = {"Easy": 30, "Medium": 25, "Hard": 20}
+        countdown_time = countdown_times[level]
+        start_ticks = pygame.time.get_ticks()
+        font_timer = pygame.font.SysFont(None, 40)
+
         while running:
+            frame_timer.tick(60)
+            seconds_passed = (pygame.time.get_ticks() - start_ticks) / 1000
+            time_left = max(0, countdown_time - int(seconds_passed))
+
             frame_timer.tick(60)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -215,13 +224,27 @@ while running:
                         move_player(maze, player_position, 1, 0)
 
             visual_maze(win, maze, cell_size)
-            draw_goal(win, col, row, cell_size )
+            draw_goal(win, col, row, cell_size)
             draw_out_player(win, player_position, cell_size)
             pygame.display.update()
+
+            timer_text = font_timer.render(f"Time: {time_left}", True, (255, 255, 255))
+            win.blit(timer_text, (10, 10))
+
+            pygame.display.update()
+
+            if time_left <= 0:
+                print("Time's up!")
+                pygame.time.wait(1000)
+                running = False
 
             if player_position == [col - 1, row - 1]:
                 print("You Win")
                 pygame.time.wait(1000)
                 running = False
 
+            if player_position == [col - 1, row - 1]:
+                print("You Win")
+                pygame.time.wait(1000)
+                running = False
 pygame.quit()
