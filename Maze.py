@@ -203,6 +203,10 @@ while running:
         countdown_time = countdown_times[level]
         start_ticks = pygame.time.get_ticks()
         font_timer = pygame.font.SysFont(None, 40)
+        font_result = pygame.font.SysFont(None, 60)
+        won = False
+        game_over = False
+        time_taken = 0
 
         while running:
             frame_timer.tick(60)
@@ -233,18 +237,31 @@ while running:
 
             pygame.display.update()
 
-            if time_left <= 0:
-                print("Time's up!")
-                pygame.time.wait(1000)
+            if not game_over:
+                if player_position == [col - 1, row - 1]:
+                    won = True
+                    time_taken = seconds_passed
+                    game_over = True
+                    pygame.time.wait(500)
+                elif time_left <= 0:
+                    won = False
+                    time_taken = countdown_time
+                    game_over = True
+                    pygame.time.wait(500)
+
+            if game_over:
+                win.fill((0, 0, 0))
+                result_text = "You Win!" if won else "Time's Up!"
+                result_surface = font_result.render(result_text, True, (255, 255, 255))
+                time_surface = font_timer.render(
+                    f"Time Used: {int(time_taken)} sec", True, (255, 255, 255)
+                )
+
+                win.blit(result_surface, result_surface.get_rect(center=(width // 2, height // 2 - 40)))
+                win.blit(time_surface, time_surface.get_rect(center=(width // 2, height // 2 + 10)))
+
+                pygame.display.update()
+                pygame.time.wait(3000)
                 running = False
 
-            if player_position == [col - 1, row - 1]:
-                print("You Win")
-                pygame.time.wait(1000)
-                running = False
-
-            if player_position == [col - 1, row - 1]:
-                print("You Win")
-                pygame.time.wait(1000)
-                running = False
 pygame.quit()
