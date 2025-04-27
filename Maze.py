@@ -235,6 +235,7 @@ level = None
 running = True
 
 while running:
+    window.fill(WHITE)
     pygame.time.delay(100)
 
     for event in pygame.event.get():
@@ -243,7 +244,6 @@ while running:
             exit()
 
         if not START:
-            window.blit(image, (0, 0))
             for button in Home_Buttons:
                 if button.check(event):
                    level = button.text
@@ -268,7 +268,6 @@ while running:
                         exit()
                     elif returning_button.check(event):
                         stats = False
-                pygame.time.delay(100)
 
 
     if not START and not stats:
@@ -329,6 +328,7 @@ while running:
                 if button_return.check(event):
                     START = False
                     level_running = False
+                    window.fill(WHITE)
 
                 if button_restart.check(event):
                     maze_count += 1
@@ -356,9 +356,10 @@ while running:
             pygame.display.update()
 
             if time_left <= 0:
-                end_message(win,"Time's up! You lost!!", RED, width, height)
+                print("Time's up!")
                 losses_count += 1
                 maze_count += 1
+                pygame.time.wait(1000)
                 level_running = False
 
             if player_position == [col - 1, row - 1]:
