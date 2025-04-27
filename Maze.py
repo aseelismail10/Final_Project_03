@@ -10,18 +10,24 @@ pygame.display.set_caption('Maze Game')
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GREEN = (0, 255, 0)
-DARK_GREEN = (0, 128, 0)
-YELLOW = (255, 255, 0)
+GREEN = (144, 238, 144)
+DARK_GREEN = (34, 139, 34)
+YELLOW = (255, 250, 100)
 DARK_YELLOW = (204, 204, 0)
-RED = (255, 0, 0)
-DARK_RED = (139, 0, 0)
-BLUE = (0,0,255)
-DARK_BLUE = (0, 0, 139)
+PINK = (255, 192, 203)
+HOT_PINK = (255, 105, 180)
+ORANGE = (255, 200, 130)
+DARK_ORANGE = (255, 165, 0)
 PLAYER_COLOR = (173,216,230)
 GOAL = (255,0,0)
 LIGHT_GREEN = (144,238,144) #green background
 DARK_GREEN = (0, 100, 0) #our wall color
+
+image = pygame.image.load('125001346.jpg')
+image = pygame.transform.scale(image, (x_axis, y_axis))
+
+stats_image = pygame.image.load('204654375.jpg')
+stats_image = pygame.transform.scale(stats_image, (x_axis, y_axis))
 
 time_list_easy = []
 time_list_medium = []
@@ -196,7 +202,7 @@ def end_message(window, message, color, width, height):
 
 def game_statistics(window):
 """Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
-    window.fill(LIGHT_GREEN)
+    window.blit(stats_image, (0,0))
     text = stat_font.render("Game Statistics", True, WHITE)
     text_rect = text.get_rect(center=(x_axis // 2, y_axis // 8))
     window.blit(text, text_rect)
@@ -240,6 +246,7 @@ while running:
             exit()
 
         if not START:
+            window.blit(image, (0,0))
             for button in Home_Buttons:
                 if button.check(event):
                     level = button.text
@@ -368,7 +375,7 @@ while running:
                     time_list_hard.append(20-time_left)
                 wins_count += 1
                 maze_count += 1
-                end_message(win, "You Win!", DARK_GREEN, width, height)
+                end_message(win, "You Win!", GREEN, width, height)
                 level_running = False
 
 pygame.quit()
