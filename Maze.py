@@ -170,6 +170,14 @@ def move_player(maze, player_position, delta_row, delta_col):
         elif delta_col == 1 and not cell["E"]:  # Check if moving right (East)
             player_position[0] += 1
 
+def end_message(window, message, color, width, height):
+    font = pygame.font.SysFont(None, 60)
+    text = font.render(message, True, color)
+    rect = text.get_rect(center=(width // 2, (340 // 2)))
+    window.blit(text, rect)
+    pygame.display.update()
+    pygame.time.wait(2000)
+
 def game_statistics(window):
 
     window.fill(BLACK)
@@ -182,9 +190,9 @@ def game_statistics(window):
         f'Win Percentage: {((wins_count/maze_count) * 100)}%' if maze_count > 0 else 'Win Percentage: N/A',
         f'Total losses: {losses_count}',
         f'Lost Percentage: {((losses_count/maze_count) * 100)}%' if maze_count > 0 else 'Lost Percentage: N/A',
-        f'Best time: Easy - {min(time_list_easy)}' if time_list_easy else "Best time: Easy - N/A",
-        f'Best time: Medium - {min(time_list_medium)}' if time_list_medium else 'Best time: Medium - N/A',
-        f'Best time: Hard - {min(time_list_hard)}' if time_list_hard else 'Best time: Hard - N/A',
+        f'Best time: Easy - {min(time_list_easy)} secs' if time_list_easy else "Best time: Easy - N/A",
+        f'Best time: Medium - {min(time_list_medium)} secs' if time_list_medium else 'Best time: Medium - N/A',
+        f'Best time: Hard - {min(time_list_hard)} secs' if time_list_hard else 'Best time: Hard - N/A',
         f'Total games: {maze_count}' if maze_count else "Total games: N/A"
     ]
     font = pygame.font.SysFont(None, 25)
@@ -330,10 +338,9 @@ while running:
             pygame.display.update()
 
             if time_left <= 0:
-                print("Time's up!")
+                end_message(win,"Time's up! You lost!!", RED, width, height)
                 losses_count += 1
                 maze_count += 1
-                pygame.time.wait(1000)
                 level_running = False
 
             if player_position == [col - 1, row - 1]:
@@ -345,8 +352,7 @@ while running:
                     time_list_hard.append(20-time_left)
                 wins_count += 1
                 maze_count += 1
+                end_message(win, "You Win!", GREEN, width, height)
                 level_running = False
-                print("You Win")
-                pygame.time.wait(1000)
 
 pygame.quit()
