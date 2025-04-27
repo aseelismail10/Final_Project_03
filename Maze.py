@@ -20,10 +20,18 @@ BLUE = (0,0,255)
 DARK_BLUE = (0, 0, 139)
 PLAYER_COLOR = (173,216,230)
 GOAL = (255,0,0)
+LIGHT_GREEN = (144,238,144) #green background
+DARK_GREEN = (0, 100, 0) #our wall color
 
 time_list_easy = []
 time_list_medium = []
 time_list_hard = []
+
+bee_image = pygame.image.load('bee.png')
+bee_image = pygame.transform.smoothscale(bee_image, (50, 50)) # Adjust size if needed
+
+flower_image = pygame.image.load('flower.png')
+flower_image = pygame.transform.scale(flower_image, (40, 40))  # Adjust size if needed
 
 maze_count = 0
 losses_count = 0
@@ -133,7 +141,7 @@ def maze_generation(row,col):
 
 def visual_maze(window,maze,cell_size):#draws out maze
 """the maze display for the user to play the game"""
-    window.fill(BLACK)
+    window.fill(LIGHT_GREEN)
     row = len(maze)
     col = len(maze[0])
     for y in range(row):
@@ -142,25 +150,25 @@ def visual_maze(window,maze,cell_size):#draws out maze
             cell_x = x * cell_size
             cell_y = y * cell_size
             if cell["N"]:
-                pygame.draw.line(window, WHITE, (cell_x, cell_y), (cell_x + cell_size, cell_y), 2)
+                pygame.draw.line(window, DARK_GREEN, (cell_x, cell_y), (cell_x + cell_size, cell_y), 2)
             if cell["S"]:
-                pygame.draw.line(window, WHITE, (cell_x, cell_y + cell_size), (cell_x + cell_size, cell_y + cell_size), 2)
+                pygame.draw.line(window, DARK_GREEN, (cell_x, cell_y + cell_size), (cell_x + cell_size, cell_y + cell_size), 2)
             if cell["E"]:
-                pygame.draw.line(window, WHITE, (cell_x + cell_size, cell_y), (cell_x + cell_size, cell_y + cell_size), 2)
+                pygame.draw.line(window, DARK_GREEN, (cell_x + cell_size, cell_y), (cell_x + cell_size, cell_y + cell_size), 2)
             if cell["W"]:
-                pygame.draw.line(window, WHITE, (cell_x, cell_y), (cell_x, cell_y + cell_size), 2)
+                pygame.draw.line(window, DARK_GREEN, (cell_x, cell_y), (cell_x, cell_y + cell_size), 2)
 
 def draw_out_player(window, player_position, cell_size):
-"""Draws the player as a circle at their current position on the game window."""
+"""Draws the player at their current position on the game window."""
     x,y = player_position
-    center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2) #center circle within the cell
-    pygame.draw.circle(window, PLAYER_COLOR, center, cell_size//3)
+    center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2) #center within the cell
+    window.blit(bee_image, (center[0] - 15, center[1] - 15))
 
 def draw_goal(win, col, row, cell_size):
-"""Draws the goal as a circle on the maze grid."""
+"""Includes the goal as a flower on the maze grid."""
     x, y = col - 1, row - 1
     center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2)
-    pygame.draw.circle(win, GOAL, center, cell_size // 3)
+    window.blit(flower_image, (center[0] - 20, center[1] - 20))
 
 
 def move_player(maze, player_position, delta_row, delta_col):
@@ -188,7 +196,7 @@ def end_message(window, message, color, width, height):
 
 def game_statistics(window):
 """Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
-    window.fill(BLACK)
+    window.fill(LIGHT_GREEN)
     text = stat_font.render("Game Statistics", True, WHITE)
     text_rect = text.get_rect(center=(x_axis // 2, y_axis // 8))
     window.blit(text, text_rect)
