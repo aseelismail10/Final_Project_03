@@ -43,7 +43,7 @@ stat_font = pygame.font.SysFont(None, 45)
 header_font = pygame.font.SysFont(None, 45)
 
 class Button:
-"""creation of button class seen in the game display (ie: restart, game statistics, easy, medium, hard, return, end)"""
+    """creation of button class seen in the game display (ie: restart, game statistics, easy, medium, hard, return, end)"""
     def __init__(self, x_pos, y_pos, width_1, height_1, text, color, hover, txt_color):
         self.color = color
         self.hover = hover
@@ -53,7 +53,7 @@ class Button:
         self.font = pygame.font.SysFont('comicsansms', 30, bold=True)
 
     def create(self, display):
-    """ created the buttons for the player to move"""
+        """ created the buttons for the player to move"""
         mouse = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse):
             color_1 = self.hover
@@ -66,7 +66,7 @@ class Button:
         display.blit(text_display, text_render)
 
     def check(self, event1):
-    """checks the event type (when the arrows are clicked to move the character)"""
+        """checks the event type (when the arrows are clicked to move the character)"""
         if event1.type == pygame.MOUSEBUTTONDOWN:
             if event1.button == 1 and self.rect.collidepoint(event1.pos):
                 return True
@@ -108,7 +108,7 @@ Opp = {
 }
 
 def maze_generation(row,col):
-"""Generation of the maze using branching and randomization"""
+    """Generation of the maze using branching and randomization"""
     maze = [[{"N":True, "S":True, "E":True, "W":True} for _ in range(col)] for _ in range(row)]
 
     visited = [[False for _ in range (col)] for _ in range(row)] #track visited cells
@@ -140,7 +140,7 @@ def maze_generation(row,col):
     return maze #return maze with walls
 
 def visual_maze(window,maze,cell_size):#draws out maze
-"""the maze display for the user to play the game"""
+    """the maze display for the user to play the game"""
     window.fill(LIGHT_GREEN)
     row = len(maze)
     col = len(maze[0])
@@ -159,20 +159,20 @@ def visual_maze(window,maze,cell_size):#draws out maze
                 pygame.draw.line(window, DARK_GREEN, (cell_x, cell_y), (cell_x, cell_y + cell_size), 2)
 
 def draw_out_player(window, player_position, cell_size):
-"""Draws the player at their current position on the game window."""
+    """Draws the player at their current position on the game window."""
     x,y = player_position
     center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2) #center within the cell
     window.blit(bee_image, (center[0] - 15, center[1] - 15))
 
 def draw_goal(win, col, row, cell_size):
-"""Includes the goal as a flower on the maze grid."""
+    """Includes the goal as a flower on the maze grid."""
     x, y = col - 1, row - 1
     center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2)
     window.blit(flower_image, (center[0] - 20, center[1] - 20))
 
 
 def move_player(maze, player_position, delta_row, delta_col):
-"""Attempts to move the player in the maze based on input direction (arrows pressed), checks for walls and maze boundaries."""
+    """Attempts to move the player in the maze based on input direction (arrows pressed), checks for walls and maze boundaries."""
     x, y = player_position
     new_x, new_y = x + delta_col, y + delta_row
     if 0 <= new_x < len(maze[0]) and 0 <= new_y < len(maze):
@@ -195,7 +195,7 @@ def end_message(window, message, color, width, height):
     pygame.time.wait(2000)
 
 def game_statistics(window):
-"""Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
+    """Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
     window.fill(LIGHT_GREEN)
     text = stat_font.render("Game Statistics", True, WHITE)
     text_rect = text.get_rect(center=(x_axis // 2, y_axis // 8))
