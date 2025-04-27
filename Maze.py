@@ -76,9 +76,9 @@ Home_Buttons = [
 
 game_statistic = Button(x1, y1 + 3 * space, button_width, button_height, 'Game Statistics', BLUE, DARK_BLUE, WHITE)
 
-button_return = Button(65, 425,110, 50, 'Return', GREEN, DARK_GREEN, WHITE)
-button_restart = Button(195,425,110,50,'Restart', YELLOW, DARK_YELLOW, WHITE)
-button_exit = Button(325,425, 110, 50, 'Exit', RED, DARK_RED, WHITE)
+button_return = Button(15, 425,150, 50, 'Return', GREEN, DARK_GREEN, WHITE)
+button_restart = Button(175,425,150,50,'Restart', YELLOW, DARK_YELLOW, WHITE)
+button_exit = Button(335,425, 150, 50, 'Exit', RED, DARK_RED, WHITE)
 
 returning_button = Button(170, y_axis // 1.25, 150, 50, 'Return', BLUE, DARK_BLUE, WHITE)
 
