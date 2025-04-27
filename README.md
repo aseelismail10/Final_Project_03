@@ -8,33 +8,30 @@ Github Repository: https://github.com/aseelismail10/Final_Project_03
 EASY
 ---
 
-- 3 turns
-
-- 2 branches
 
 - 6 x 8
+
+- 30 seconds
 
 
 ---
 MEDIUM
 ---
 
-- 4 turns
-
-- 3 branches
 
 - 8 x 10
+
+- 25 seconds
 
 
 ---
 HARD
 ---
 
-- 5 turns
-
-- 4 branches
 
 - 10 x 12
+
+- 20 seconds
 
 
 ---
