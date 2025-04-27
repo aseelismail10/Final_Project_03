@@ -41,7 +41,7 @@ class Button:
         self.text = text
         self.txt_color = txt_color
         self.rect = pygame.Rect(x_pos, y_pos, width_1, height_1)
-        self.font = pygame.font.SysFont(None, 40)
+        self.font = pygame.font.SysFont('comicsansms', 30, bold=True)
 
     def create(self, display):
         mouse = pygame.mouse.get_pos()
