@@ -8,6 +8,7 @@ y_axis = 500
 window = pygame.display.set_mode((x_axis, y_axis))
 pygame.display.set_caption('Maze Game')
 
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (144, 238, 144)
@@ -18,8 +19,7 @@ PINK = (255, 192, 203)
 HOT_PINK = (255, 105, 180)
 ORANGE = (255, 200, 130)
 DARK_ORANGE = (255, 165, 0)
-PLAYER_COLOR = (173,216,230)
-GOAL = (255,0,0)
+RED = (255, 0, 0)
 LIGHT_GREEN = (144,238,144) #green background
 DARK_GREEN = (0, 100, 0) #our wall color
 
@@ -87,17 +87,17 @@ space = 70
 Home_Buttons = [
         Button(x1, y1, button_width, button_height, 'Easy', GREEN, DARK_GREEN, WHITE),
         Button(x1, y1 + space, button_width, button_height, 'Medium', YELLOW, DARK_YELLOW, WHITE),
-        Button(x1, y1 + 2 * space, button_width, button_height, 'Hard', RED, DARK_RED, WHITE),
+        Button(x1, y1 + 2 * space, button_width, button_height, 'Hard', PINK, HOT_PINK, WHITE),
 
         ]
 
-game_statistic = Button(x1, y1 + 3 * space, button_width, button_height, 'Game Statistics', BLUE, DARK_BLUE, WHITE)
+game_statistic = Button(x1, y1 + 3 * space, button_width, button_height, 'Game Statistics', ORANGE, DARK_ORANGE, WHITE)
 
-button_return = Button(15, 425,150, 50, 'Return', GREEN, DARK_GREEN, WHITE)
+button_return = Button(15, 425,150, 50, 'Return', ORANGE, DARK_ORANGE, WHITE)
 button_restart = Button(175,425,150,50,'Restart', YELLOW, DARK_YELLOW, WHITE)
-button_exit = Button(335,425, 150, 50, 'Exit', RED, DARK_RED, WHITE)
+button_exit = Button(335,425, 150, 50, 'Exit', PINK, HOT_PINK, WHITE)
 
-returning_button = Button(170, y_axis // 1.25, 150, 50, 'Return', BLUE, DARK_BLUE, WHITE)
+returning_button = Button(170, y_axis // 1.25, 150, 50, 'Return', ORANGE, DARK_ORANGE, WHITE)
 
 #Player movements within the maze. Removes "the wall" in between the two cells
 Direction = {
@@ -201,7 +201,7 @@ def end_message(window, message, color, width, height):
     pygame.time.wait(2000)
 
 def game_statistics(window):
-"""Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
+    """Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
     window.blit(stats_image, (0,0))
     text = stat_font.render("Game Statistics", True, WHITE)
     text_rect = text.get_rect(center=(x_axis // 2, y_axis // 8))
@@ -235,82 +235,75 @@ level = None
 running = True
 
 while running:
-    # Reset window to white (for home screen or game stat page)
-    window.fill(WHITE)
     pygame.time.delay(100)
 
-    # Event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
 
         if not START:
-            window.blit(image, (0,0))
+            window.blit(image, (0, 0))
             for button in Home_Buttons:
                 if button.check(event):
-                    level = button.text
+                   level = button.text
 
-                    if level == "Easy":
-                        row, col = 6, 8
-                    elif level == "Medium":
-                        row, col = 8, 10
-                    elif level == "Hard":
-                        row, col = 10, 12
-                    START = True
+                   if level == "Easy":
+                       row, col = 6, 8
+                   elif level == "Medium":
+                       row, col = 8, 10
+                   elif level == "Hard":
+                       row, col = 10, 12
+                   START = True
 
                 if game_statistic.check(event):
                     stats = True
                     START = False
-
-        # Game statistics screen
         if stats:
             while stats:
-                # Clear window and update game statistics page
                 returning_button = game_statistics(window)
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         exit()
                     elif returning_button.check(event):
-                        stats = False  # Return to home page from statistics
-                        window.fill(WHITE)  # Clear screen when returning to home
-                        pygame.display.update()  # Force update to prevent glitching
+                        stats = False
+                pygame.time.delay(100)
 
-        if not START and not stats:
-            # Home screen content
-            name_font = pygame.font.SysFont('comicsansms', 60, bold=True)
-            header_font = pygame.font.SysFont('comicsansms', 45, bold=True)
-            name_text = name_font.('Maze Game', True, BLACK)
-            header_text = header_font.render('Select Difficulty:', True, BLACK)
 
-            name_rect = name_text.get_rect(center=(x_axis // 2, 50))
-            header_rect = header_text.get_rect(center=(x_axis // 2, 100))
+    if not START and not stats:
+        name_font = pygame.font.SysFont('comicsansms', 45, bold=True)
+        header_font = pygame.font.SysFont('comicsansms', 30, bold=True)
+        name_text = name_font.render('Maze Game', True, BLACK)
+        header_text = header_font.render('Select Difficulty:', True, BLACK)
 
-            window.blit(name_text, name_rect)
-            window.blit(header_text, header_rect)
+        name_rect = name_text.get_rect(center=(x_axis // 2, 50))
+        header_rect = header_text.get_rect(center=(x_axis // 2, 100))
 
-            for button in Home_Buttons:
-                button.create(window)
-            game_statistic.create(window)
-            pygame.display.update()
+        window.blit(name_text, name_rect)
+        window.blit(header_text, header_rect)
 
-    # Transition from the game screen back to home or statistics
-    if START:
-        width, height = 500, 500
-        cell_size = width // col
+        for button in Home_Buttons:
+            button.create(window)
+        game_statistic.create(window)
+        pygame.display.update()
+    else: #select difficulty
+
+        width,height = 500, 500
+        cell_size = width//col
         win = pygame.display.set_mode((width, height))
         pygame.display.set_caption("Maze Game")
 
         frame_timer = pygame.time.Clock()
-        maze = maze_generation(row, col)
-        player_position = [0, 0]
+        maze = maze_generation(row,col)
+        player_position = [0,0]
         level_running = True
 
         countdown_times = {"Easy": 30, "Medium": 25, "Hard": 20}
         countdown_time = countdown_times[level]
         start_ticks = pygame.time.get_ticks()
-        font_timer = pygame.font.SysFont(None, 40)
+        font_timer = pygame.font.SysFont('comicsansms', 20, bold=True)
+
 
         while level_running:
             frame_timer.tick(60)
@@ -318,6 +311,7 @@ while running:
             time_left = max(0, countdown_time - int(seconds_passed))
 
             win.fill(BLACK)
+
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -335,17 +329,17 @@ while running:
                 if button_return.check(event):
                     START = False
                     level_running = False
-                    window.fill(WHITE)  # Clear screen when returning to home page
 
                 if button_restart.check(event):
                     maze_count += 1
-                    player_position = [0, 0]
+                    player_position = [0,0]
                     start_ticks = pygame.time.get_ticks()
                     maze = maze
 
                 if button_exit.check(event):
                     pygame.quit()
                     exit()
+
 
             visual_maze(win, maze, cell_size)
             draw_goal(win, col, row, cell_size)
@@ -355,11 +349,12 @@ while running:
             button_restart.create(win)
             button_exit.create(win)
 
+
             timer_text = font_timer.render(f"Time: {time_left}", True, (255, 255, 255))
             win.blit(timer_text, (10, 10))
 
             pygame.display.update()
-            
+
             if time_left <= 0:
                 end_message(win,"Time's up! You lost!!", RED, width, height)
                 losses_count += 1
@@ -375,7 +370,7 @@ while running:
                     time_list_hard.append(20-time_left)
                 wins_count += 1
                 maze_count += 1
-                end_message(win, "You Win!", GREEN, width, height)
+                end_message(win, "You Win!", DARK_GREEN, width, height)
                 level_running = False
 
 pygame.quit()
