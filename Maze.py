@@ -368,7 +368,7 @@ while running:
                     time_list_hard.append(20-time_left)
                 wins_count += 1
                 maze_count += 1
-                end_message(win, "You Win!", GREEN, width, height)
+                end_message(win, "You Win!", DARK_GREEN, width, height)
                 level_running = False
 
 pygame.quit()
