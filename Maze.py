@@ -257,6 +257,8 @@ while running:
 
 
     if not START and not stats:
+        name_font = pygame.font.SysFont('comicsansms', 60, bold=True)
+        header_font = pygame.font.SysFont('comicsansms', 45, bold=True)
         name_text = name_font.render('Maze Game', True, BLACK)
         header_text = header_font.render('Select Difficulty:', True, BLACK)
 
@@ -285,7 +287,8 @@ while running:
         countdown_times = {"Easy": 30, "Medium": 25, "Hard": 20}
         countdown_time = countdown_times[level]
         start_ticks = pygame.time.get_ticks()
-        font_timer = pygame.font.SysFont(None, 40)
+        font_timer = pygame.font.SysFont('comicsansms', 20, bold=True)
+
 
         while level_running:
             frame_timer.tick(60)
