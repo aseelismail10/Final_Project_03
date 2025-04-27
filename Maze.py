@@ -253,7 +253,7 @@ def game_statistics(window):
        f'Best time: Easy - {min(time_list_easy)} secs' if time_list_easy else "Best time: Easy - N/A",
        f'Best time: Medium - {min(time_list_medium)} secs' if time_list_medium else 'Best time: Medium - N/A',
        f'Best time: Hard - {min(time_list_hard)} secs' if time_list_hard else 'Best time: Hard - N/A',
-       f'Total games: {maze_count}' if maze_count else "Total games: N/A"
+       f'Total games: {maze_count}'
    ]
    font = pygame.font.SysFont('comicsansms', 25)
    y = y_axis // 3
