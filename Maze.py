@@ -34,8 +34,9 @@ stat_font = pygame.font.SysFont(None, 45)
 
 header_font = pygame.font.SysFont(None, 45)
 
-"""creation of button class seen in the game display (ie: restart, game statistics, easy, medium, hard, return, end)"""
+
 class Button:
+"""creation of button class seen in the game display (ie: restart, game statistics, easy, medium, hard, return, end)"""
     def __init__(self, x_pos, y_pos, width_1, height_1, text, color, hover, txt_color):
         self.color = color
         self.hover = hover
@@ -44,8 +45,8 @@ class Button:
         self.rect = pygame.Rect(x_pos, y_pos, width_1, height_1)
         self.font = pygame.font.SysFont(None, 40)
 
-""" created the buttons for the player to move"""
     def create(self, display):
+    """ created the buttons for the player to move"""
         mouse = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse):
             color_1 = self.hover
@@ -57,8 +58,8 @@ class Button:
         text_render = text_display.get_rect(center=self.rect.center)
         display.blit(text_display, text_render)
         
-"""checks the event type (when the arrows are clicked to move the character)"""
     def check(self, event1):
+    """checks the event type (when the arrows are clicked to move the character)"""
         if event1.type == pygame.MOUSEBUTTONDOWN:
             if event1.button == 1 and self.rect.collidepoint(event1.pos):
                 return True
@@ -71,8 +72,8 @@ x1 = (x_axis - button_width) // 2
 y1 = 170
 space = 70
 
-"""Array to display buttons and add the colors"""
-Home_Buttons = [
+
+Home_Buttons = [ 
         Button(x1, y1, button_width, button_height, 'Easy', GREEN, DARK_GREEN, WHITE),
         Button(x1, y1 + space, button_width, button_height, 'Medium', YELLOW, DARK_YELLOW, WHITE),
         Button(x1, y1 + 2 * space, button_width, button_height, 'Hard', RED, DARK_RED, WHITE),
@@ -102,8 +103,9 @@ Opp = {
     "W":"E"
 }
 
-"""Generation of the maze using branching and randomization"""
+
 def maze_generation(row,col):
+    """Generation of the maze using branching and randomization"""
     maze = [[{"N":True, "S":True, "E":True, "W":True} for _ in range(col)] for _ in range(row)]
 
     visited = [[False for _ in range (col)] for _ in range(row)] #track visited cells
@@ -134,8 +136,9 @@ def maze_generation(row,col):
 
     return maze #return maze with walls
 
-"""the maze display for the user to play the game"""
+
 def visual_maze(window,maze,cell_size):#draws out maze
+"""the maze display for the user to play the game"""
     window.fill(BLACK)
     row = len(maze)
     col = len(maze[0])
@@ -154,20 +157,20 @@ def visual_maze(window,maze,cell_size):#draws out maze
                 pygame.draw.line(window, WHITE, (cell_x, cell_y), (cell_x, cell_y + cell_size), 2)
 
 
-"""Draws the player as a circle at their current position on the game window."""
 def draw_out_player(window, player_position, cell_size):
+"""Draws the player as a circle at their current position on the game window."""
     x,y = player_position
     center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2) #center circle within the cell
     pygame.draw.circle(window, PLAYER_COLOR, center, cell_size//3)
 
-"""Draws the goal as a circle on the maze grid."""
 def draw_goal(win, col, row, cell_size):
+"""Draws the goal as a circle on the maze grid."""
     x, y = col - 1, row - 1
     center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2)
     pygame.draw.circle(win, GOAL, center, cell_size // 3)
 
-"""Attempts to move the player in the maze based on input direction (arrows pressed), checks for walls and maze boundaries."""
 def move_player(maze, player_position, delta_row, delta_col):
+"""Attempts to move the player in the maze based on input direction (arrows pressed), checks for walls and maze boundaries."""
     x, y = player_position
     new_x, new_y = x + delta_col, y + delta_row
     if 0 <= new_x < len(maze[0]) and 0 <= new_y < len(maze):
@@ -181,9 +184,8 @@ def move_player(maze, player_position, delta_row, delta_col):
         elif delta_col == 1 and not cell["E"]:  # Check if moving right (East)
             player_position[0] += 1
 
-"""Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
 def game_statistics(window):
-
+"""Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
     window.fill(BLACK)
     text = stat_font.render("Game Statistics", True, WHITE)
     text_rect = text.get_rect(center=(x_axis // 2, y_axis // 8))
