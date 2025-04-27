@@ -234,8 +234,12 @@ stats = False
 level = None
 running = True
 
+background = pygame.image.load('125001346.jpg')  # Use your image path here
+background = pygame.transform.scale(background,(x_axis, y_axis))  # Resize the background to match the window size
+
+# In the event loop, where you handle the screen drawing:
 while running:
-    window.fill(WHITE)
+    window.blit(background, (0, 0))  # Draw the background at (0, 0)
     pygame.time.delay(100)
 
     for event in pygame.event.get():
@@ -268,62 +272,63 @@ while running:
                         exit()
                     elif returning_button.check(event):
                         stats = False
+                        window.blit(background, (0, 0))
+                        pygame.display.update()
 
 
-    if not START and not stats:
-        name_font = pygame.font.SysFont('comicsansms', 45, bold=True)
-        header_font = pygame.font.SysFont('comicsansms', 30, bold=True)
-        name_text = name_font.render('Maze Game', True, BLACK)
-        header_text = header_font.render('Select Difficulty:', True, BLACK)
+        if not START and not stats:
+                name_font = pygame.font.SysFont('comicsansms', 45, bold=True)
+                header_font = pygame.font.SysFont('comicsansms', 30, bold=True)
+                name_text = name_font.render('Maze Game', True, BLACK)
+                header_text = header_font.render('Select Difficulty:', True, BLACK)
 
-        name_rect = name_text.get_rect(center=(x_axis // 2, 50))
-        header_rect = header_text.get_rect(center=(x_axis // 2, 100))
+                name_rect = name_text.get_rect(center=(x_axis // 2, 50))
+                header_rect = header_text.get_rect(center=(x_axis // 2, 100))
 
-        window.blit(name_text, name_rect)
-        window.blit(header_text, header_rect)
+                window.blit(name_text, name_rect)
+                window.blit(header_text, header_rect)
 
-        for button in Home_Buttons:
-            button.create(window)
-        game_statistic.create(window)
-        pygame.display.update()
-    else: #select difficulty
+                for button in Home_Buttons:
+                    button.create(window)
+                game_statistic.create(window)
+                pygame.display.update()
+        else: #select difficulty
 
-        width,height = 500, 500
-        cell_size = width//col
-        win = pygame.display.set_mode((width, height))
-        pygame.display.set_caption("Maze Game")
+                width,height = 500, 500
+                cell_size = width//col
+                win = pygame.display.set_mode((width, height))
+                pygame.display.set_caption("Maze Game")
 
-        frame_timer = pygame.time.Clock()
-        maze = maze_generation(row,col)
-        player_position = [0,0]
-        level_running = True
+                frame_timer = pygame.time.Clock()
+                maze = maze_generation(row,col)
+                player_position = [0,0]
+                level_running = True
 
-        countdown_times = {"Easy": 30, "Medium": 25, "Hard": 20}
-        countdown_time = countdown_times[level]
-        start_ticks = pygame.time.get_ticks()
-        font_timer = pygame.font.SysFont('comicsansms', 20, bold=True)
+                countdown_times = {"Easy": 30, "Medium": 25, "Hard": 20}
+                countdown_time = countdown_times[level]
+                start_ticks = pygame.time.get_ticks()
+                font_timer = pygame.font.SysFont('comicsansms', 20, bold=True)
+
+                while level_running:
+                    frame_timer.tick(60)
+                    seconds_passed = (pygame.time.get_ticks() - start_ticks) / 1000
+                    time_left = max(0, countdown_time - int(seconds_passed))
+
+                window.blit(background, (0, 0))
 
 
-        while level_running:
-            frame_timer.tick(60)
-            seconds_passed = (pygame.time.get_ticks() - start_ticks) / 1000
-            time_left = max(0, countdown_time - int(seconds_passed))
-
-            win.fill(BLACK)
-
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        move_player(maze, player_position, 0, -1)
-                    elif event.key == pygame.K_RIGHT:
-                        move_player(maze, player_position, 0, 1)
-                    elif event.key == pygame.K_UP:
-                        move_player(maze, player_position, -1, 0)
-                    elif event.key == pygame.K_DOWN:
-                        move_player(maze, player_position, 1, 0)
+                for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            running = False
+                        elif event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_LEFT:
+                                move_player(maze, player_position, 0, -1)
+                            elif event.key == pygame.K_RIGHT:
+                                move_player(maze, player_position, 0, 1)
+                        elif event.key == pygame.K_UP:
+                            move_player(maze, player_position, -1, 0)
+                        elif event.key == pygame.K_DOWN:
+                            move_player(maze, player_position, 1, 0)
 
                 if button_return.check(event):
                     START = False
@@ -341,34 +346,34 @@ while running:
                     exit()
 
 
-            visual_maze(win, maze, cell_size)
-            draw_goal(win, col, row, cell_size)
-            draw_out_player(win, player_position, cell_size)
+                visual_maze(win, maze, cell_size)
+                draw_goal(win, col, row, cell_size)
+                draw_out_player(win, player_position, cell_size)
 
-            button_return.create(win)
-            button_restart.create(win)
-            button_exit.create(win)
+                button_return.create(win)
+                button_restart.create(win)
+                button_exit.create(win)
 
 
-            timer_text = font_timer.render(f"Time: {time_left}", True, (255, 255, 255))
-            win.blit(timer_text, (10, 10))
+                timer_text = font_timer.render(f"Time: {time_left}", True, (255, 255, 255))
+                win.blit(timer_text, (10, 10))
 
-            pygame.display.update()
+                pygame.display.update()
 
-            if time_left <= 0:
-                print("Time's up!")
-                losses_count += 1
-                maze_count += 1
-                pygame.time.wait(1000)
-                level_running = False
+                if time_left <= 0:
+                    print("Time's up!")
+                    losses_count += 1
+                    maze_count += 1
+                    pygame.time.wait(1000)
+                    level_running = False
 
-            if player_position == [col - 1, row - 1]:
-                if level == 'Easy':
-                    time_list_easy.append(30-time_left)
-                elif level == 'Medium':
-                    time_list_medium.append(25-time_left)
-                else:
-                    time_list_hard.append(20-time_left)
+                if player_position == [col - 1, row - 1]:
+                    if level == 'Easy':
+                        time_list_easy.append(30-time_left)
+                    elif level == 'Medium':
+                        time_list_medium.append(25-time_left)
+                    else:
+                        time_list_hard.append(20-time_left)
                 wins_count += 1
                 maze_count += 1
                 end_message(win, "You Win!", DARK_GREEN, width, height)
