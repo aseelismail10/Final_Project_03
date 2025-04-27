@@ -154,18 +154,19 @@ def visual_maze(window,maze,cell_size):#draws out maze
                 pygame.draw.line(window, WHITE, (cell_x, cell_y), (cell_x, cell_y + cell_size), 2)
 
 
-
+"""Draws the player as a circle at their current position on the game window."""
 def draw_out_player(window, player_position, cell_size):
     x,y = player_position
     center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2) #center circle within the cell
     pygame.draw.circle(window, PLAYER_COLOR, center, cell_size//3)
 
+"""Draws the goal as a circle on the maze grid."""
 def draw_goal(win, col, row, cell_size):
     x, y = col - 1, row - 1
     center = (x * cell_size + cell_size // 2, y * cell_size + cell_size // 2)
     pygame.draw.circle(win, GOAL, center, cell_size // 3)
 
-
+"""Attempts to move the player in the maze based on input direction (arrows pressed), checks for walls and maze boundaries."""
 def move_player(maze, player_position, delta_row, delta_col):
     x, y = player_position
     new_x, new_y = x + delta_col, y + delta_row
@@ -180,6 +181,7 @@ def move_player(maze, player_position, delta_row, delta_col):
         elif delta_col == 1 and not cell["E"]:  # Check if moving right (East)
             player_position[0] += 1
 
+"""Displays the player's game statistics (ie: as wins, losses, percentages, best times, and total games played)"""
 def game_statistics(window):
 
     window.fill(BLACK)
