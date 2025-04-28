@@ -1,6 +1,6 @@
 # Final_Project_03
 
-Group members: Chelsey Peace, Devadarshini Dhandapani, Alexandra Hernandez
+Group members: Chelsey Peace, Devadarshini Dhandapani, Alexandra Hernandez, Aseel Ismail
 
 Github Repository: https://github.com/aseelismail10/Final_Project_03
 
