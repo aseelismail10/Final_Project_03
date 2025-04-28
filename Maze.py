@@ -247,9 +247,9 @@ def game_statistics(window):
 
    list_stats = [
        f'Total wins: {wins_count}',
-       f'Win Percentage: {((wins_count/maze_count) * 100)}%' if maze_count > 0 else 'Win Percentage: N/A',
+       f'Win Percentage: {((wins_count/maze_count) * 100):.2f}%' if maze_count > 0 else 'Win Percentage: N/A',
        f'Total losses: {losses_count}',
-       f'Lost Percentage: {((losses_count/maze_count) * 100)}%' if maze_count > 0 else 'Lost Percentage: N/A',
+       f'Lost Percentage: {((losses_count/maze_count) * 100):.2f}%' if maze_count > 0 else 'Lost Percentage: N/A',
        f'Best time: Easy - {min(time_list_easy)} secs' if time_list_easy else "Best time: Easy - N/A",
        f'Best time: Medium - {min(time_list_medium)} secs' if time_list_medium else 'Best time: Medium - N/A',
        f'Best time: Hard - {min(time_list_hard)} secs' if time_list_hard else 'Best time: Hard - N/A',
